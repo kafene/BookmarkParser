@@ -180,4 +180,38 @@ class ParseShaarliBookmarksTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('1463262269', $bkm[2]['time']);
         $this->assertEquals('?GIvbSw', $bkm[2]['uri']);
     }
+
+    /**
+     * Parse bookmarks as exported by Shaarli legacy
+     */
+    public function testParseLegacy()
+    {
+        $bkm = $this->parser->parseFile('tests/input/shaarli_legacy.htm');
+        $this->assertEquals(2, sizeof($bkm));
+
+        $this->assertEquals(
+            array(
+                'uri' => 'https://gist.github.com/rodrigomuniz/8408734',
+                'title' => 'A Pen by Rodrigo Muniz.',
+                'note' => 'simple on/off button',
+                'tags' => 'css',
+                'time' => 1470640652,
+                'pub' => 0
+            ),
+            $bkm[0]
+        );
+        $this->assertEquals(
+            array(
+                'uri' => 'https://www.addedbytes.com/articles/for-beginners/'
+                         .'url-rewriting-for-beginners/',
+                'title' => 'URL Rewriting for Beginners - '
+                           .'Web Development in Brighton - Added Bytes',
+                'note' => '',
+                'tags' => 'apache',
+                'time' => 1469950052,
+                'pub' => 1
+            ),
+            $bkm[1]
+        );
+    }
 }

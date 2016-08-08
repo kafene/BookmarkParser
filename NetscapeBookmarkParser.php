@@ -225,6 +225,9 @@ class NetscapeBookmarkParser
         // trim comments
         $sanitized = preg_replace('@<!--.*-->@mis', '', $sanitized);
 
+        // keep one XML element per line to prepare for linear parsing
+        $sanitized = preg_replace('@>(\s*?)<@mis', ">\n<", $sanitized);
+
         // trim unused metadata
         $sanitized = preg_replace('@(<!DOCTYPE|<META|<TITLE|<H1|<P).*\n@i', '', $sanitized);
 
@@ -243,9 +246,6 @@ class NetscapeBookmarkParser
             },
             $sanitized
         );
-
-        // keep one XML element per line to prepare for linear parsing
-        $sanitized = preg_replace('@>(\s*?)<@mis', ">\n<", $sanitized);
 
         // concatenate all information related to the same entry on the same line
         // e.g. <A HREF="...">My Link</A><DD>List<br>- item1<br>- item2
